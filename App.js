@@ -4,18 +4,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './pages/HomeScreen';
 import Fatego from './pages/Fatego';
+import Error from './pages/Error';
 
 
 export default function App() {
 
-  const Stack=createNativeStackNavigator();
-
-    // const render={
-    //     rute:"Home",componente:HomeScreen,
-    //     rute:"Fate",componente:Fatego,
-    // }
-
-    // const renderItem=({item})=>(<Stack.Screen name={item.rute} component={item.componente} />)
+  const Stack = createNativeStackNavigator();
 
   return (
     <>
@@ -23,6 +17,7 @@ export default function App() {
         <Stack.Navigator initialRouteName='Home'>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Fate" component={Fatego} />
+          <Stack.Screen name="No Existe" component={Error} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />

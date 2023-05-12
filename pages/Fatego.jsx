@@ -23,6 +23,7 @@ export default function Fatego() {
     try {
       setCargando(true);
     const res=await traerDatos('https://api.atlasacademy.io/export/NA/nice_servant.json')
+    // console.log(res);
       for (let i = 0; i < res.length; i++) {
         objeto[i] = {
           name: res[i].name,
@@ -105,9 +106,6 @@ const styles = StyleSheet.create({
     height: 150,
     alignItems: "center",
   },
-  viewLista: {
-    alignItems: "center",
-  }
 });
 // const estilitos = ScaledSheet.create({
 //   container: {
