@@ -11,12 +11,13 @@ import {
 import { ordenarName, traerDatos } from "../library/diccionario";
 import Cargando from "../components/Cargando";
 import { ScaledSheet } from 'react-native-size-matters'
+import Card from "../components/Card";
 
 
 export default function Fatego() {
   const [Api, setApi] = useState();
   const [cargando, setCargando] = useState(false);
-  useEffect(() => { }, [Api]);
+  useEffect(() => {handleAPI()},[]);
 
   const handleAPI = async() => {
     const objeto = [];
@@ -31,7 +32,7 @@ export default function Fatego() {
           artIndex: 1,
         };
       }
-      ordenarName(objeto)// Ordena el objeto por el atributo name
+      // ordenarName(objeto)// Ordena el objeto por el atributo name
 
       setApi(objeto);
       setCargando(false);
@@ -50,36 +51,19 @@ export default function Fatego() {
     setApi(updatedApi); // actualiza el estado Api con la copia actualizada
   };
 
+  const handleBorrar=(nombresito)=>setApi(Api.filter(e=>e.name!=nombresito))// Borra la tarjeta elejida
+
   const handleApiLista = ({ item }) => (
-    <View style={styles.container}>
-      <Text>{item.name}</Text>
-      <TouchableOpacity
-        onPress={() => {
-          handleChangeImage(item.name);
-        }}
-        style={[styles.image]}
-      >
-        <Image
-          source={{
-            uri:item.art[item.artIndex]}
-          }
-          style={[styles.image]}
-        />
-      </TouchableOpacity>
-    </View>
-  );
+    <Card name={item.name} art={item.art} artIndex={item.artIndex} changeImage={()=>handleChangeImage(item.name)}
+    borrar={()=>handleBorrar(item.name)}></Card>
+  )
 
   return (
     <View style={styles.container}>
-      {!Api && <TouchableOpacity onPress={handleAPI} style={styles.item}>
-        <Text>Movistar</Text>
-      </TouchableOpacity>}
-
+      
       {cargando && <Cargando/>}
-        
-
-          <FlatList data={Api} renderItem={handleApiLista} />
-        
+      
+          <FlatList data={Api} renderItem={handleApiLista} style={{width:'100%'}} />    
     </View>
   );
 }
@@ -106,6 +90,13 @@ const styles = StyleSheet.create({
     height: 150,
     alignItems: "center",
   },
+  boton:{
+    marginVertical: 10,
+    padding:3,
+    backgroundColor:"#f00",
+    borderRadius:15,
+    borderWidth:0.5
+  }
 });
 // const estilitos = ScaledSheet.create({
 //   container: {

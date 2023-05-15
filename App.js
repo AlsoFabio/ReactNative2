@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './pages/HomeScreen';
 import Fatego from './pages/Fatego';
 import Error from './pages/Error';
+import Queso from './pages/Queso';
 
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Fate" component={Fatego} />
           <Stack.Screen name="No Existe" component={Error} />
+          <Stack.Screen name="Quesito" component={Queso} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />

@@ -5,7 +5,7 @@ const Error = () => {
 
     return (
         <View style={[styles.container]}>
-            <Image source={require('../assets/error-404.png')} style={{ width: 300, height: 300 }} />
+            <Image source={require('../img/error-404.png')} style={{ width: 350, height: 350 }} />
         </View>
     )
 }

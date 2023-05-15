@@ -3,7 +3,7 @@ import React from 'react'
 
 const Cargando = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>Cargando...</Text>
     </View>
   )
@@ -11,4 +11,11 @@ const Cargando = () => {
 
 export default Cargando
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  }
+})
