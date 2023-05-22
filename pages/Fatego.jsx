@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { ImageBackground, StyleSheet, TextInput } from "react-native";
 import {
   FlatList,
-  ScrollView,
-  TouchableOpacity,
   View,
-  Text,
-  Image,
 } from "react-native";
 import { ordenarName, traerDatos } from "../library/diccionario";
 import Cargando from "../components/Cargando";
-import { ScaledSheet } from "react-native-size-matters";
 import Card from "../components/Card";
+import Constants from 'expo-constants'
 
 export default function Fatego() {
-  const [Api, setApi] = useState();
-  const [apiFiltrada, setApiFiltrada] = useState();
+  const [Api, setApi] = useState([]);
   const [cargando, setCargando] = useState(false);
-  const [buscado, setBuscado] = useState("");
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     handleAPI();
@@ -30,15 +25,17 @@ export default function Fatego() {
       const res = await traerDatos(
         "https://api.atlasacademy.io/export/NA/nice_servant.json"
       );
-      // console.log(res);
+      ordenarName(res)// Ordena el objeto por el atributo name
+      
       for (let i = 0; i < res.length; i++) {
-        objeto[i] = {
-          name: res[i].name,
-          art: res[i].extraAssets.charaGraph.ascension,
-          artIndex: 1,
-        };
+        if(res[i].extraAssets.status.ascension){
+          objeto[i] = {
+            name: res[i].name,
+            art: res[i].extraAssets.status.ascension,
+            artIndex: 3,
+          };
+        }
       }
-      // ordenarName(objeto)// Ordena el objeto por el atributo name
 
       setApi(objeto);
       setCargando(false);
@@ -48,13 +45,13 @@ export default function Fatego() {
     }
   };
 
-  const handleBuscado = (text) => {
-    const filteredData = Api.filter((item) =>
-      item.name.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredApi(filteredData);
-    setBuscado(text);
-  };
+  // const handleBuscado = (text) => {
+  //   const filteredData = Api.filter((item) =>
+  //     item.name.toLowerCase().includes(text.toLowerCase())
+  //   );
+  //   setFilteredApi(filteredData);
+  //   setBuscado(text);
+  // };
 
   const handleChangeImage = (name) => {
     // use chat GPT acá
@@ -67,7 +64,7 @@ export default function Fatego() {
   };
 
   const handleBorrar = (nombresito) =>
-    setApi((prevApi) => prevApi.filter((e) => e.name != nombresito)); // Borra la tarjeta elejida
+    setApi(Api.filter((e) => e.name != nombresito)); // Borra la tarjeta elejida
 
   const handleApiLista = ({ item }) => (
     <Card
@@ -79,26 +76,28 @@ export default function Fatego() {
     ></Card>
   );
 
+  const handleBuscar = Api.filter((item) =>
+    item.name.toLowerCase().includes(searchText.toLowerCase())
+  );
+
   return (
     <View style={styles.container}>
-      {cargando && <Cargando />}
+      <ImageBackground style={styles.backgroundImage} source={require('../img/main_bg.jpg')}>
+        {cargando && <Cargando />}
 
-      {!cargando && (
-        <TextInput
-          placeholder="Buscar por nombre"
-          value={buscado}
-          onChangeText={handleBuscado}
-        />
-      )}
-
-      {
-        apiFiltrada
-        ?<FlatList data={filteredApi} renderItem={handleApiLista} style={{width:'100%'}} />
-        :<FlatList data={Api}
+        {!cargando && (
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Buscar por nombre"
+            value={searchText}
+            onChangeText={(text) => setSearchText(text)}
+          />
+        )}
+        <FlatList data={handleBuscar}
           renderItem={handleApiLista}
           style={{ width: "100%" }}
-        />
-      }
+          numColumns={2} />
+      </ImageBackground>
     </View>
   );
 }
@@ -109,27 +108,45 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+
   },
   item: {
     backgroundColor: "#0f0",
     padding: 3,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderWidth: 1,
-    borderRadius: 10,
+    marginVertical: "8@s",
+    marginHorizontal: "16@s",
+    borderWidth: "1@s",
+    borderRadius: "10@s",
   },
   image: {
     width: "71%",
-    height: 150,
+    height: "150@s",
     alignItems: "center",
   },
   boton: {
-    marginVertical: 10,
-    padding: 3,
+    marginVertical: "10@s",
+    padding: "3@s",
     backgroundColor: "#f00",
-    borderRadius: 15,
-    borderWidth: 0.5,
+    borderRadius: "15@s",
+    borderWidth: "0.5@s",
   },
+  backgroundImage: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    resizeMode: 'center',
+    alignItems: "center",
+  },
+  searchInput: {
+    width: "50%",
+    textAlign: 'center',
+    height: 30,
+    color: "#00000050",
+    borderRadius: 8,
+    borderColor: 'gray',
+    borderWidth: 1,
+    backgroundColor: "#f0f0f0",
+  }
 });
 // const estilitos = ScaledSheet.create({
 //   container: {

@@ -6,18 +6,33 @@ import HomeScreen from './pages/HomeScreen';
 import Fatego from './pages/Fatego';
 import Error from './pages/Error';
 import Queso from './pages/Queso';
+import { useEffect, useState } from 'react';
+import { loadCustomFonts } from './fontStyle';
 
 
 export default function App() {
 
   const Stack = createNativeStackNavigator();
+  const [fontLoaded, setFontLoaded] = useState(false)
 
+  useEffect(() => {
+    const loadFont = async () => {
+      await loadCustomFonts();
+      setFontLoaded(true);
+    };
+
+    loadFont();
+  }, [])
+
+  if (!fontLoaded) {
+    return null; // Otra vista de carga o indicador de carga
+  }
   return (
     <>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='Home'>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Fate" component={Fatego} />
+          <Stack.Screen name="Home" component={HomeScreen}  options={{headerShown: false}}/>
+          <Stack.Screen name="Fate" component={Fatego} /* options={{headerShown: false}} *//>
           <Stack.Screen name="No Existe" component={Error} />
           <Stack.Screen name="Quesito" component={Queso} />
         </Stack.Navigator>
