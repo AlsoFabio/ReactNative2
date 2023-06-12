@@ -1,10 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
 
 const Cargando = () => {
   return (
     <View style={styles.container}>
-      <Text>Cargando...</Text>
+      <Text style={styles.text}>Cargando...</Text>
     </View>
   )
 }
@@ -17,5 +16,8 @@ const styles = StyleSheet.create({
     backgroundColor: "trasparent",
     alignItems: "center",
     justifyContent: "center",
+  },
+  text: {
+    color: "white",
   }
 })

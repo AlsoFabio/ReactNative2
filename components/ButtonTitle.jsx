@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
   container: {
     margin: 10,
     padding: 10,
-    backgroundColor: 'transparent',
-    borderRadius: 5,
+    backgroundColor: '#f0f0f050',
+    borderRadius: 100,
     alignItems: 'center',
     // borderWidth:1,
     // borderColor:'skyblue'
